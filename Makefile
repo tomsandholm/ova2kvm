@@ -31,6 +31,7 @@ list:
 	
 targets:
 	sed -n 's/^\([a-Z][a-Z]*\):.*/\1/gp' Makefile
+	exit 0
 
 ## the distro to build
 #DISTRO := xenial
@@ -153,6 +154,7 @@ clean:
 	rm -rf $(IMGDIR)
 	rm -rf *.tmp1
 	rm -rf *.tmp2
+	rm -rf user-data
 
 ## just remove a single image
 clean-image:
@@ -300,13 +302,6 @@ Delete:
 	sudo sed -i "/^$(NAME).*/d" /etc/ansible/hosts
 	make -e NAME=$(NAME) clean-image
 
-GDelete:
-list := $(shell virsh list | grep $(GCPREFIX) | awk '{print $$2}')
-$(info list is $(list))
-out := $(foreach snode,$(list), \
-	make -e NAME=$(snode) Delete; \
-)
-$(info out is $(out))
 
 ## create a node using virt-install
 node:	config.iso
