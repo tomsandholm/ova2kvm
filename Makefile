@@ -27,11 +27,12 @@ help:
 	make list
 
 list:
+	$(shell mkdir -p $(IMGDIR))
 	ls $(IMGDIR)
+
 	
 targets:
 	sed -n 's/^\([a-Z][a-Z]*\):.*/\1/gp' Makefile
-	exit 0
 
 ## the distro to build
 #DISTRO := xenial
