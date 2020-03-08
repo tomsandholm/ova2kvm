@@ -1,0 +1,66 @@
+## template: jinja
+#cloud-config
+disable_root: 0
+ssh_pwauth: 1
+
+write_files:
+  - path: /etc/tom
+    content: |
+      This is data from the installation.
+      This is another line.
+    owner: root:root
+    permissions: '0644'
+
+#MOUNTS
+mounts:
+  - ["/dev/vdb", "none", "swap", "sw", "0", "0"]
+
+#PACKAGES
+# packages-general
+packages:
+  - python3
+  - lsof
+  - netcat
+  - xinetd
+  - zip
+
+#BOOTCMD
+bootcmd:
+ - mkswap /dev/vdb
+ - swapon /dev/vdb
+
+#APT
+
+ntp:
+  enabled: true
+  ntp_client: ntp
+
+chpasswd:
+  list: |
+    root:$1$xyz$quBhc72d/1S/7c2IIRk7k1
+  expire: False
+
+manage_etc_hosts: True
+
+apt_update: true
+
+apt_upgrade: true
+
+#ssh_pwauth: True
+
+users:
+  - name: ubuntu
+    ssh-authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvIhS6cohahZN1aeld1EyzxNSdjKm7yE/P8EG0D9GEm0PUt7Z54K009dY+/9WPLzI8163CaPKS2X7XISUfyOpvGu9BrsYVrZtSnOuV9a79ztT6Xsy2w4ePSyvq/C/nuTp/1hv/WHhodoapeAevzhOmVQYU35ouwwg3e2HBB6KxIWMUX+LwyTWeZ4TVSn0OWobmsDjo3WsnapSsxUDFMPxRo70N8ntvdrSc9jhjufzkVtMo6Z6/SLWbuoLKaPByMMGxbpRQ7YK14Ymua42y/LEookYJRg0ZiW0s0DK9gpeNrJ+qvEL8MrJeg+/2QmF5gtuv6Jcyo8QTD6SVtBVBdr95 sandholm@beast4
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    shell: /bin/bash
+
+#RUNCMD
+runcmd:
+  - echo '{{ ds.meta_data.role }}' > /etc/role
+  - echo '{{ ds.meta_data.aenv }}' > /etc/aenv
+  - update-grub
+  - apt autoremove -y
+  - touch /etc/cloud/cloud-init.disabled
+  - eject
+  - shutdown -h now

@@ -1,0 +1,14 @@
+runcmd:
+  - echo '{{ ds.meta_data.role }}' > /etc/role
+  - echo '{{ ds.meta_data.aenv }}' > /etc/aenv
+  - update-grub
+  - apt autoremove -y
+  - touch /etc/cloud/cloud-init.disabled
+  - eject
+  - mkdir -p /var/www/html/ubuntu/var
+  - chown -R www-data:www-data /var/www
+  - cp /etc/apt/mirror.list /etc/apt/mirror.list.orig
+  - sed -i 's@^.* base_path.*@set base_path /var/www/html/ubuntu@g' /etc/apt/mirror.list
+  - sed -i 's@artful@bionic@g' /etc/apt/mirror.list
+  - sed -i 's@^\(deb-src .*$\)@#\1@g' /etc/apt/mirror.list
+  - shutdown -h now

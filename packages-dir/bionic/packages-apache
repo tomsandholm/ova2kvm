@@ -1,0 +1,10 @@
+# packages-apache
+packages:
+  - python
+  - lsof
+  - netcat
+  - xinetd
+  - zip
+  - apache2
+  - php
+  - php-cli

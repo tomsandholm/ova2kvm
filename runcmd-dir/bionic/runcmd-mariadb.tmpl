@@ -1,0 +1,15 @@
+runcmd:
+  - echo '{{ ds.meta_data.role }}' > /etc/role
+  - echo '{{ ds.meta_data.aenv }}' > /etc/aenv
+  - update-grub
+  - apt autoremove -y
+  - touch /etc/cloud/cloud-init.disabled
+  - mysqladmin -u root password theresa1 
+  - sed -i 's/^bind-address.*/bind-address = 0.0.0.0/g' /etc/mysql/my.cnf
+  - mysql -u root --password=theresa1 -e "use mysql; CREATE USER '{{ ds.meta_data.remuser }}'@'localhost' IDENTIFIED BY '{{ ds.meta_data.remuserpsw }}';"
+  - mysql -u root --password=theresa1 -e "use mysql; CREATE USER '{{ ds.meta_data.remuser }}'@'%' IDENTIFIED BY '{{ ds.meta_data.remuserpsw }}';"
+  - mysql -u root --password=theresa1 -e "use mysql; GRANT ALL ON *.* TO '{{ ds.meta_data.remuser }}'@'localhost';"
+  - mysql -u root --password=theresa1 -e "use mysql; GRANT ALL ON *.* TO '{{ ds.meta_data.remuser }}'@'%';"
+  - systemctl 
+  - eject
+  - shutdown -h now

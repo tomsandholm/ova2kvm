@@ -1,0 +1,26 @@
+#! /bin/bash
+
+KEYNAME=dpkg1
+EMAIL=${KEYNAME}@mydomain.ext
+cat > /root/$KEYNAME.batch <<EOF
+ %echo Generating a standard key
+ Key-Type: RSA
+ Key-Length: 4096
+ Subkey-Length: 4096
+ Name-Real: ${KEYNAME}
+ Name-Email: ${EMAIL}
+ Expire-Date: 0
+ %pubring ${KEYNAME}.pub
+ %secring ${KEYNAME}.key
+ # Do a commit here, so that we can later print "done" :-)
+ %commit
+ %echo done
+EOF
+
+cd /root
+gpg --verbose --batch --gen-key --yes ${KEYNAME}.batch
+gpg --verbose --no-default-keyring --secret-keyring ${KEYNAME}.key --keyring ${KEYNAME}.pub --list-secret-keys
+gpg --verbose --import ${KEYNAME}.key
+echo ">>>>>>>>>>>>>>>>>>>    all done with vendor data"
+
+
