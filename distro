@@ -1,3 +1,4 @@
+focal;20.04;https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img;focal-server-cloudimg-amd64.img
 xenial;16.04;https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img;xenial-server-cloudimg-amd64-disk1.img
 bionic;18.04;https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img;bionic-server-cloudimg-amd64.img
 cosmic;18.10;https://cloud-images.ubuntu.com/cosmic/current/cosmic-server-cloudimg-amd64.img;cosmic-server-cloudimg-amd64.img

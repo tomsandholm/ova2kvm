@@ -36,7 +36,7 @@ targets:
 
 ## the distro to build
 #DISTRO := xenial
-DISTRO := bionic
+DISTRO := focal
 
 ## graphics
 GRAPHICS := none

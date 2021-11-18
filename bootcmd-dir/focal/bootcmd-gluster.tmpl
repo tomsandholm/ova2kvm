@@ -1,0 +1,10 @@
+bootcmd:
+ - mkswap /dev/vdb
+ - swapon /dev/vdb
+ - pvcreate /dev/vdc
+ - vgcreate gl00 /dev/vdc
+ - lvcreate --name gl00 -l 100%FREE gl00
+ - mke2fs -j /dev/gl00/gl00
+ - apt-get install software-properties-common
+ - add-apt-repository ppa:gluster/glusterfs-6
+ - apt update

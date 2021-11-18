@@ -1,0 +1,8 @@
+runcmd:
+  - echo '{{ ds.meta_data.role }}' > /etc/role
+  - echo '{{ ds.meta_data.aenv }}' > /etc/aenv
+  - update-grub
+  - apt autoremove -y
+  - touch /etc/cloud/cloud-init.disabled
+  - eject
+  - shutdown -h now

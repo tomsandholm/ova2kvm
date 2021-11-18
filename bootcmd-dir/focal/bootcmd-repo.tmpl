@@ -1,0 +1,8 @@
+bootcmd:
+ - mkswap /dev/vdb
+ - swapon /dev/vdb
+ - pvcreate /dev/vdc
+ - vgcreate web /dev/vdc
+ - lvcreate --name docroot -l 100%FREE web
+ - mke2fs -j /dev/web/docroot
+ 
