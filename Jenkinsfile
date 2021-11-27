@@ -30,7 +30,7 @@ pipeline {
     stage('build') {
       steps {
         sh """
-          sudo make -e NAME=${params.NODEFQDN}
+          sudo make -e NAME=${params.NODEFQDN} node
         """
       }
     }
