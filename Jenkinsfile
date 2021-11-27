@@ -33,7 +33,7 @@ pipeline {
     stage('build') {
       steps {
         sh """
-          sudo make -e NAME=${params.NODEFQDN} RAM=${params.RAM} VCPUS=${params.VCPUS} ROOTSIZE=${params.ROOTSIZE} DISTRO=${param.DISTRO} node
+          sudo make -e NAME=${params.NODEFQDN} RAM=${params.RAM} VCPUS=${params.VCPUS} ROOTSIZE=${params.ROOTSIZE} DISTRO=${params.DISTRO} node
         """
       }
     }
