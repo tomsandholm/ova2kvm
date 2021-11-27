@@ -14,6 +14,10 @@ pipeline {
 	GIT_BRANCH_NAME = "${GIT_BRANCH.split('/').size() >1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
   }
 
+  parameters {
+    string(defaultValue: "tom.tsand.org", description "Specify FQDN", name: "NODEFQDN" )
+  }
+
   stages {
 
     stage('checkout') {
@@ -26,7 +30,7 @@ pipeline {
     stage('build') {
       steps {
         sh """
-          sudo make -e NAME=tom.tsand.org node
+          sudo make -e NAME=${params.NODEFQDN}
         """
       }
     }
