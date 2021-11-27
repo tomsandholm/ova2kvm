@@ -15,7 +15,7 @@ pipeline {
   }
 
   parameters {
-    string(defaultValue: "tom.tsand.org", description; "Specify FQDN", name: "NODEFQDN" )
+    string(defaultValue: "tom.tsand.org", description: "Specify FQDN", name: "NODEFQDN" )
   }
 
   stages {
