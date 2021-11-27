@@ -26,7 +26,7 @@ pipeline {
     stage('build') {
       steps {
         sh """
-          make -e NAME=tom.tsand.org node
+          sudo make -e NAME=tom.tsand.org node
         """
       }
     }
