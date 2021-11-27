@@ -9,13 +9,15 @@ pipeline {
   }
 
   environment {
-    CAUSE = "${currentBuild.getBuildCauses()[0].shortDescription}"
 	GIT_REPO_NAME = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
 	GIT_BRANCH_NAME = "${GIT_BRANCH.split('/').size() >1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
   }
 
   parameters {
     string(defaultValue: "tom.tsand.org", description: "Specify FQDN", name: "NODEFQDN" )
+	string(defaultValue: "2048", description: "Ram size", name: "RAM" )
+	string(defaultValue: "2", description: "CPU Count", name: "VCPUS" )
+	string(defaultValue: "16", description: "Root Size (GB)", name: "ROOTSIZE" )
   }
 
   stages {
@@ -30,7 +32,7 @@ pipeline {
     stage('build') {
       steps {
         sh """
-          sudo make -e NAME=${params.NODEFQDN} node
+          sudo make -e NAME=${params.NODEFQDN} RAM=${params.RAM} VCPUS=${params.VCPUS} ROOTSIZE=${params.ROOTSIZE} node
         """
       }
     }
