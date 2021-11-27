@@ -18,7 +18,7 @@ pipeline {
 	string(defaultValue: "2048", description: "Ram size", name: "RAM" )
 	string(defaultValue: "2", description: "CPU Count", name: "VCPUS" )
 	string(defaultValue: "16", description: "Root Size (GB)", name: "ROOTSIZE" )
-	choice(choices: '16.04 - xenial\n18.04 - bionic\n20.04 - focal', description: 'Distribution', name: "DISTRO" )
+	choice(choices: 'xenial\nbionic\nfocal', description: 'Distribution', name: "DISTRO" )
   }
 
   stages {
