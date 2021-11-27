@@ -18,6 +18,7 @@ pipeline {
 	string(defaultValue: "2048", description: "Ram size", name: "RAM" )
 	string(defaultValue: "2", description: "CPU Count", name: "VCPUS" )
 	string(defaultValue: "16", description: "Root Size (GB)", name: "ROOTSIZE" )
+	choice(choices: '16.04 - xenial', '18.04 - bionic', '20.04 - focal', description: 'Distribution', name: "DISTRO" )
   }
 
   stages {
@@ -32,7 +33,7 @@ pipeline {
     stage('build') {
       steps {
         sh """
-          sudo make -e NAME=${params.NODEFQDN} RAM=${params.RAM} VCPUS=${params.VCPUS} ROOTSIZE=${params.ROOTSIZE} node
+          sudo make -e NAME=${params.NODEFQDN} RAM=${params.RAM} VCPUS=${params.VCPUS} ROOTSIZE=${params.ROOTSIZE} DISTRO=${param.DISTRO} node
         """
       }
     }
