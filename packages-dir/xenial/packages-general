@@ -1,7 +1,7 @@
 # packages-general
 packages:
+  - haveged
   - python3
   - lsof
   - netcat
-  - xinetd
   - zip
