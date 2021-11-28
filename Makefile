@@ -73,6 +73,9 @@ DATASIZE := 0
 ## DBLOGSIZE
 DBLOGSIZE := 0
 
+## DBSIZE
+DBSIZE := 0
+
 ## rootdisk size
 ## in GB
 ROOTSIZE := 16
