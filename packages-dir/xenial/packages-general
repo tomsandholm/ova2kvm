@@ -4,4 +4,5 @@ packages:
   - python3
   - lsof
   - netcat
+  - haveged
   - zip
