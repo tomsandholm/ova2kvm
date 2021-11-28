@@ -70,6 +70,9 @@ SWAPSIZE := 2
 ## in GB
 DATASIZE := 0
 
+## DBLOGSIZE
+DBLOGSIZE := 0
+
 ## rootdisk size
 ## in GB
 ROOTSIZE := 16
