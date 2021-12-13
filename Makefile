@@ -34,6 +34,7 @@ list:
 targets:
 	sed -n 's/^\([a-Z][a-Z]*\):.*/\1/gp' Makefile
 
+DOMAIN := .tsand.org
 ## the distro to build
 #DISTRO := xenial
 DISTRO := focal
@@ -78,7 +79,7 @@ DBSIZE := 0
 
 ## rootdisk size
 ## in GB
-ROOTSIZE := 16
+ROOTSIZE := 8
 
 ## docroot disk size
 ## in GB
@@ -314,7 +315,19 @@ Delete:
 node:	config.iso
 	@:$(call check_defined,NAME)
 
-	virt-install --connect=qemu:///system --name $(SNAME) --ram $(RAM) --vcpus=$(VCPUS) --os-type=linux --os-variant=ubuntu16.04 --disk path=$(IMGDIR)/$(SNAME)/rootfs.qcow2,device=disk,bus=virtio $(SWAPDISK) $(DATADISK) $(DBDISK) $(DBLOGDISK) $(WEBDISK) --disk path=$(IMGDIR)/$(SNAME)/config.iso,device=cdrom --graphics $(GRAPHICS) --import --wait=-1 --network bridge=br0  --noautoconsole
+	virt-install --connect=qemu:///system --name $(SNAME) --ram $(RAM) --vcpus=$(VCPUS) --os-type=linux --os-variant=ubuntu16.04 --disk path=$(IMGDIR)/$(SNAME)/rootfs.qcow2,device=disk,bus=virtio $(SWAPDISK) $(DATADISK) $(DBDISK) $(DBLOGDISK) $(WEBDISK) --disk path=$(IMGDIR)/$(SNAME)/config.iso,device=cdrom --graphics $(GRAPHICS) --import --wait=-1 --noautoconsole
 	sudo echo "$(NAME) ansible_python_interpreter=\"/usr/bin/python3\"" >> /etc/ansible/hosts
 	virsh start $(SNAME)
+
+.PHONY:	cluster
+
+## this sets a list of NODES if creating a cluster
+NODES := $(shell seq -f "$(PREFIX)%02g$(DOMAIN)" $(COUNT))
+
+## create a cluster of gluster nodes
+## make -e PREFIX=gl COUNT=5 cluster
+cluster:
+	@:$(call check_defined,PREFIX)
+	@:$(call check_defined,COUNT)
+	$(foreach var,$(NODES),make -e NAME=$(var) DATASIZE=8 ROLE=gluster node;)
 
