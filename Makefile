@@ -320,14 +320,28 @@ node:	config.iso
 	virsh start $(SNAME)
 
 .PHONY:	cluster
+.PHONY: push-hosts
+.PHONY: cluster-delete
 
 ## this sets a list of NODES if creating a cluster
-NODES := $(shell seq -f "$(PREFIX)%02g$(DOMAIN)" $(COUNT))
 
 ## create a cluster of gluster nodes
 ## make -e PREFIX=gl COUNT=5 cluster
 cluster:
+	$(eval NODES := $(shell seq -f "$(PREFIX)%02g$(DOMAIN)" $(COUNT)))
 	@:$(call check_defined,PREFIX)
 	@:$(call check_defined,COUNT)
+	> hosts
 	$(foreach var,$(NODES),make -e NAME=$(var) DATASIZE=8 ROLE=gluster node;)
+	$(foreach var,$(NODES),getent hosts $(var) >> hosts;)
+	cat hosts.template hosts > client-hosts
+	make push-hosts
 
+push-hosts:
+	cat hosts | awk '{print $$3}' | xargs -n 1 ssh-keygen -R 
+	cat hosts | awk '{print $$1}' | xargs -n 1 ssh-keygen -R 
+	$(foreach var,$(shell awk '{print $$3}' hosts),ssh-keygen -f "/root/.ssh/known_hosts" -R $(var);)
+	$(foreach var,$(shell awk '{print $$3}' hosts),scp -o StrictHostKeyChecking=no client-hosts $(var):/etc/hosts;)
+
+cluster-delete:
+	cat hosts | awk '{print $$3}' | xargs -n 1 -I {} make -e NAME="{}" Delete
