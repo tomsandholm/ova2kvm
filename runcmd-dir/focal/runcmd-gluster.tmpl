@@ -4,9 +4,11 @@ runcmd:
   - update-grub
   - apt autoremove -y
   - apt-get install software-properties-common
-  - add-apt-repository ppa:gluster/glusterfs-6
+  - add-apt-repository ppa:gluster/glusterfs-7
   - apt update
   - apt-get install glusterfs-server
+  - mkdir /glusterstorage/dir00
+  - systemctl enable glusterd.service
   - touch /etc/cloud/cloud-init.disabled
   - eject
   - shutdown -h now
