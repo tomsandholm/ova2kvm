@@ -336,12 +336,17 @@ cluster:
 	$(foreach var,$(NODES),getent hosts $(var) >> hosts;)
 	cat hosts.template hosts > client-hosts
 	make push-hosts
+	$(eval PRIMARY := $(shell awk '{print $$3}' hosts | sed -n 1p)) 
+	$(eval LIST := $(shell awk '{print $$3}' hosts | sed -n '2,$$ p')) 
+	@echo "##### PRIMARY: $(PRIMARY)"
+	@echo "##### LIST: $(LIST)"
 
 push-hosts:
 	cat hosts | awk '{print $$3}' | xargs -n 1 ssh-keygen -R 
+	cat hosts | awk '{print $$2}' | xargs -n 1 ssh-keygen -R 
 	cat hosts | awk '{print $$1}' | xargs -n 1 ssh-keygen -R 
-	$(foreach var,$(shell awk '{print $$3}' hosts),ssh-keygen -f "/root/.ssh/known_hosts" -R $(var);)
-	$(foreach var,$(shell awk '{print $$3}' hosts),scp -o StrictHostKeyChecking=no client-hosts $(var):/etc/hosts;)
+	sleep 5
+	$(foreach var,$(shell awk '{print $$3}' hosts),scp -o StrictHostKeyChecking=no client-hosts $(var):/etc/hosts && sleep 5;)
 
 cluster-delete:
 	cat hosts | awk '{print $$3}' | xargs -n 1 -I {} make -e NAME="{}" Delete
