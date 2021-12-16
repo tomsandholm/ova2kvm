@@ -336,10 +336,13 @@ cluster:
 	$(foreach var,$(NODES),getent hosts $(var) >> hosts;)
 	cat hosts.template hosts > client-hosts
 	make push-hosts
+	sleep 5
 	$(eval PRIMARY := $(shell awk '{print $$3}' hosts | sed -n 1p)) 
 	$(eval LIST := $(shell awk '{print $$3}' hosts | sed -n '2,$$ p')) 
 	@echo "##### PRIMARY: $(PRIMARY)"
 	@echo "##### LIST: $(LIST)"
+	sleep 5
+	$(foreach var, $(LIST), ssh $(PRIMARY) gluster peer probe $(var);)
 
 push-hosts:
 	cat hosts | awk '{print $$3}' | xargs -n 1 ssh-keygen -R 
