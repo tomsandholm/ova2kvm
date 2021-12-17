@@ -3,6 +3,9 @@ SHELL = /bin/bash
 
 .PHONEY:	help
 
+PRIMARY := ''
+NLIST := ''
+
 check_defined = \
   $(strip $(foreach 1,$1, \
       $(call __check_defined,$1,$(strip $(value 2)))))
@@ -86,10 +89,10 @@ ROOTSIZE := 8
 WEBSIZE := 0
 
 ## guest node ram size
-RAM := 4096
+RAM := 2048
 
 ## guest node cpu coount
-VCPUS := 2
+VCPUS := 1
 
 ## guest node os type
 OS-VARIANT := ubuntu16.04
@@ -328,21 +331,17 @@ node:	config.iso
 ## create a cluster of gluster nodes
 ## make -e PREFIX=gl COUNT=5 cluster
 cluster:
-	$(eval NODES := $(shell seq -f "$(PREFIX)%02g$(DOMAIN)" $(COUNT)))
 	@:$(call check_defined,PREFIX)
 	@:$(call check_defined,COUNT)
+	$(eval $@_NODES := $(shell seq -f "$(PREFIX)%02g$(DOMAIN)" $(COUNT)))
+	@echo "##### NODES: $($@_NODES)"
+	rm hosts
 	> hosts
-	$(foreach var,$(NODES),make -e NAME=$(var) DATASIZE=8 ROLE=gluster node;)
-	$(foreach var,$(NODES),getent hosts $(var) >> hosts;)
+	$(foreach var,$($@_NODES),make -e NAME=$(var) DATASIZE=4 ROLE=gluster node;)
+	$(foreach var,$($@_NODES),getent hosts $(var) >> hosts;)
 	cat hosts.template hosts > client-hosts
 	make push-hosts
-	sleep 5
-	$(eval PRIMARY := $(shell awk '{print $$3}' hosts | sed -n 1p)) 
-	$(eval LIST := $(shell awk '{print $$3}' hosts | sed -n '2,$$ p')) 
-	@echo "##### PRIMARY: $(PRIMARY)"
-	@echo "##### LIST: $(LIST)"
-	sleep 5
-	$(foreach var, $(LIST), ssh $(PRIMARY) gluster peer probe $(var);)
+	make cluster-probe
 
 push-hosts:
 	cat hosts | awk '{print $$3}' | xargs -n 1 ssh-keygen -R 
@@ -353,3 +352,7 @@ push-hosts:
 
 cluster-delete:
 	cat hosts | awk '{print $$3}' | xargs -n 1 -I {} make -e NAME="{}" Delete
+
+cluster-probe:
+	$(eval PRIMARY := $(shell head -1 hosts| awk '{print $$3}'))
+	awk '{print $$3}' hosts | tail +2 | xargs -n1 ssh $(PRIMARY) gluster peer probe
