@@ -75,5 +75,3 @@ file in the workspace, and uses that to
 define the hostnames to delete.
 </pre>
 
-
-</pre>
