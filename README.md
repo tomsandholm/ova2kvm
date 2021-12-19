@@ -57,13 +57,23 @@ Create a cluster
 ==============================
 make -e PREFIX=gl COUNT=6 cluster
 
-This will create $COUNT number of nodes.  The ip-addresses are assigned as static and must be declared in DNS, or at least /etc/hosts.  The hostname patterns are defined as ${PREFIX}${%02d COUNT}.${DOMAIN}  
+<pre>
+This will create $COUNT number of nodes.  
+The ip-addresses are assigned as static 
+and must be declared in DNS, or at 
+least /etc/hosts.  The hostname patterns 
+are defined as ${PREFIX}${%02d COUNT}.${DOMAIN}  
+</pre>
 
 Delete a cluster
 ==============================
 make cluster-delete
 
-This relies on the presence of the "./hosts" file in the workspace, and uses that to define the hostnames to delete.
+<pre>
+This relies on the presence of the "./hosts" 
+file in the workspace, and uses that to 
+define the hostnames to delete.
+</pre>
 
 
 </pre>
