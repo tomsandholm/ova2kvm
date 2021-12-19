@@ -63,6 +63,12 @@ The ip-addresses are assigned as static
 and must be declared in DNS, or at 
 least /etc/hosts.  The hostname patterns 
 are defined as ${PREFIX}${%02d COUNT}.${DOMAIN}  
+The ssh keys are updated and the authorized_keys
+file is updated.  All the nodes in the cluster are
+then probed to join the default pool.
+A data disk is allocated on each node, configured
+under lvm and a brick is allocated on it.
+The final gluster volume creation is a manual task.
 </pre>
 
 Delete a cluster
