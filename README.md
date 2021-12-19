@@ -33,19 +33,37 @@ swap    --> Create node swap disk
 data    --> Create node data disk
 Delete  --> Delete node
 node    --> Create node
+cluster --> Create a gluster cluster
 
 Tasks:
 
 Build a node using defaults:
+==============================
 make -e NAME=some-node-fqdn node
 
 Build a node with a data disk of 8 gb
+==============================
 make -e NAME=fqdn DATASIZE=8 node
 
 Build a node from distro xenial
+==============================
 make -e NAME=fqdn DISTRO=xenial node
 
 Delete a node
+==============================
 make -e NAME=fqdn Delete
+
+Create a cluster
+==============================
+make -e PREFIX=gl COUNT=6 cluster
+
+This will create $COUNT number of nodes.  The ip-addresses are assigned as static and must be declared in DNS, or at least /etc/hosts.  The hostname patterns are defined as ${PREFIX}${%02d COUNT}.${DOMAIN}  
+
+Delete a cluster
+==============================
+make cluster-delete
+
+This relies on the presence of the "./hosts" file in the workspace, and uses that to define the hostnames to delete.
+
 
 </pre>
