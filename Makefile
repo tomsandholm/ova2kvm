@@ -35,7 +35,7 @@ list:
 
 	
 targets:
-	sed -n 's/^\([a-Z][a-Z]*\):.*/\1/gp' Makefile
+	sed -n 's/^\([a-Z][a-Z-]*\):.*/\1/gp' Makefile
 
 DOMAIN := .tsand.org
 ## the distro to build
