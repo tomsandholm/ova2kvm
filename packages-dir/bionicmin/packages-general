@@ -1,0 +1,6 @@
+# packages-general
+packages:
+  - python3
+  - lsof
+  - haveged
+  - zip

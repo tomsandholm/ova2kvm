@@ -1,0 +1,7 @@
+bootcmd:
+ - mkswap /dev/vdb
+ - swapon /dev/vdb
+ - pvcreate /dev/vdc
+ - vgcreate vggl /dev/vdc
+ - lvcreate --name gitlab -l 100%FREE vggl
+ - mkfs.ext4 -j /dev/mapper/vggl-gitlab

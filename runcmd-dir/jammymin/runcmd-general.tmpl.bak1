@@ -1,0 +1,15 @@
+runcmd:
+  - echo '{{ ds.meta_data.role }}' > /etc/role
+  - echo '{{ ds.meta_data.aenv }}' > /etc/aenv
+  - update-grub
+  - apt autoremove -y
+  - docker pull jenkins/jenkins:lts-jdk11
+  - curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh | sudo bash
+  - mkdir /opt/docker/jenkins
+  - docker volume create -d local-persist -o mountpoint=/opt/docker/jenkins/certs --name=jenkins-certs
+  - docker volume create -d local-persist -o mountpoint=/opt/docker/jenkins/data --name=jenkins-data
+  - docker network create jenkins
+  - docker run --name jenkins-docker --rm --detach --privileged --network jenkins --network-alias docker --env DOCKER_TLS_CERTDIR=/certs --volume jenkins-certs:/certs/client --volume jenkins-data:/var/jenkins_home --publish 2376:2376 docker:dind 
+  - touch /etc/cloud/cloud-init.disabled
+  - eject
+  - shutdown -h now

@@ -1,0 +1,11 @@
+runcmd:
+  - echo '{{ ds.meta_data.role }}' > /etc/role
+  - echo '{{ ds.meta_data.aenv }}' > /etc/aenv
+  - update-grub
+  - apt autoremove -y
+  - touch /etc/cloud/cloud-init.disabled
+  - eject
+  - apt-get install -y haproxy keepalived
+  - cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.orig
+  - cp /root/haproxy.cfg /etc/haproxy/
+  - shutdown -h now

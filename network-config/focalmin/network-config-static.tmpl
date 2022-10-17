@@ -1,0 +1,16 @@
+---
+version: 1
+config:
+- type: physical
+  name: ens2
+  subnets:
+  - type: static
+    address: <IPADDRESS>
+    netmask: 255.255.255.0
+    routes:
+    - network: 0.0.0.0
+      netmask: 0.0.0.0
+      gateway: 10.0.0.1
+- type: nameserver
+  address: [75.75.75.75]
+  search: [tsand.org]

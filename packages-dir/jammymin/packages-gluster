@@ -1,0 +1,11 @@
+# packages-general
+packages:
+  - python3
+  - lsof
+  - netcat
+  - haveged
+  - xinetd
+  - zip
+  - net-tools
+  - glusterfs-server
+  - glusterfs-client
