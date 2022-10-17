@@ -1,0 +1,7 @@
+bootcmd:
+ - mkswap /dev/vdb
+ - swapon /dev/vdb
+ - pvcreate /dev/vdc
+ - vgcreate docker /dev/vdc
+ - lvcreate --name docker -l 100%FREE docker
+ - mke2fs -j /dev/docker/docker
