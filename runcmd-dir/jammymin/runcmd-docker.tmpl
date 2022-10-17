@@ -3,6 +3,7 @@ runcmd:
   - echo '{{ ds.meta_data.aenv }}' > /etc/aenv
   - update-grub
   - apt autoremove -y
+  - curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh | sudo bash
   - touch /etc/cloud/cloud-init.disabled
   - eject
   - shutdown -h now
