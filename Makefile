@@ -40,7 +40,12 @@ targets:
 DOMAIN := .tsand.org
 ## the distro to build
 #DISTRO := xenial
-DISTRO := focal
+#DISTRO := focal
+#DISTRO := jammy
+#DISTRO := bionicmin
+#DISTRO := focalmin
+DISTRO := jammymin
+#DISTRO := bionic
 
 ## graphics
 GRAPHICS := none
@@ -72,7 +77,7 @@ SWAPSIZE := 2
 
 ## datadisk size
 ## in GB
-DATASIZE := 0
+DATASIZE := 16
 
 ## DBLOGSIZE
 DBLOGSIZE := 0
@@ -89,13 +94,13 @@ ROOTSIZE := 8
 WEBSIZE := 0
 
 ## guest node ram size
-RAM := 2048
+RAM := 4096
 
 ## guest node cpu coount
-VCPUS := 1
+VCPUS := 2
 
 ## guest node os type
-OS-VARIANT := ubuntu16.04
+OS-VARIANT := ubuntu20.04
 
 ## where the etc directoy lives
 ETCDIR := /etc/kvmbld
@@ -218,7 +223,7 @@ $(IMGDIR)/$(SNAME)/user-data:
 	cp user-data.tmp2 user-data.tmp1
 	sed "/RUNCMD/r runcmd-dir/$(DISTRO)/runcmd-$(ROLE).tmpl" user-data.tmp1 > user-data.tmp2
 	cp user-data.tmp2 user-data.tmp1
-	sed "/APT/r ./apt-$(ROLE).tmpl" user-data.tmp1 > user-data.tmp2
+	sed "/APT/r ./apt-dir/$(DISTRO)/apt-$(ROLE).tmpl" user-data.tmp1 > user-data.tmp2
 	cp user-data.tmp2 user-data
 
 ## pull all the disk stuff together
@@ -318,7 +323,8 @@ Delete:
 node:	config.iso
 	@:$(call check_defined,NAME)
 
-	virt-install --connect=qemu:///system --name $(SNAME) --ram $(RAM) --vcpus=$(VCPUS) --os-type=linux --os-variant=ubuntu16.04 --disk path=$(IMGDIR)/$(SNAME)/rootfs.qcow2,device=disk,bus=virtio $(SWAPDISK) $(DATADISK) $(DBDISK) $(DBLOGDISK) $(WEBDISK) --disk path=$(IMGDIR)/$(SNAME)/config.iso,device=cdrom --graphics $(GRAPHICS) --import --wait=-1 --noautoconsole
+	virt-install --connect=qemu:///system --name $(SNAME) --ram $(RAM) --vcpus=$(VCPUS) --os-type=linux --os-variant=ubuntu16.04 --disk path=$(IMGDIR)/$(SNAME)/rootfs.qcow2,device=disk,bus=virtio $(SWAPDISK) $(DATADISK) $(DBDISK) $(DBLOGDISK) $(WEBDISK) --disk path=$(IMGDIR)/$(SNAME)/config.iso,device=cdrom --graphics $(GRAPHICS) --import --wait=-1 
+	#virt-install --connect=qemu:///system --name $(SNAME) --ram $(RAM) --vcpus=$(VCPUS) --os-type=linux --os-variant=ubuntu16.04 --disk path=$(IMGDIR)/$(SNAME)/rootfs.qcow2,device=disk,bus=virtio $(SWAPDISK) $(DATADISK) $(DBDISK) $(DBLOGDISK) $(WEBDISK) --disk path=$(IMGDIR)/$(SNAME)/config.iso,device=cdrom --graphics $(GRAPHICS) --import --wait=-1 --noautoconsole
 	sudo echo "$(NAME) ansible_python_interpreter=\"/usr/bin/python3\"" >> /etc/ansible/hosts
 	virsh start $(SNAME)
 
