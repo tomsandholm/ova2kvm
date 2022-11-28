@@ -1,0 +1,4 @@
+#! /bin/bash
+# vi:set nu ai ap aw smd showmatch tabstop=4 shiftwidth=4:
+
+docker run -d -v /var/lib/jenkins:/var/jenkins_home -p 8080:8080 -p 50000:50000 --restart=on-failure custom-jenkins-docker

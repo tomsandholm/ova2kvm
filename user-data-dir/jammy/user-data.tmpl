@@ -19,31 +19,6 @@ write_files:
       apt-get install -y gitlab-ee
     owner: root:root
     permissions: '0644'
-  - path: /root/haproxy.cfg
-    content: |
-      defaults
-        log global
-        maxconn 2000
-        mode http
-        option redispatch
-        option forwardfor
-        option http-server-close
-        retries 3
-        timeout http-request 10s
-        timeout queue 1m
-        timeout connect 10s
-        timeout client 1m
-        timeout server 1m
-        timeout check 10s
-
-      frontend ft_jenkins
-        bind *:80
-        default_backend bk_jenkins
-        reqadd X-Forwarded-Proto:\ http
-
-      backend bk_jenkins
-        server jenkins1 10.0.0.10:8080 check
-        server jenkins2 10.0.0.11:8080 check
 
 
 #MOUNTS
@@ -70,7 +45,7 @@ package_upgrade: true
 #ssh_pwauth: True
 
 users:
-  - name: ubuntu
+  - name: jenkins
     ssh-authorized_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvIhS6cohahZN1aeld1EyzxNSdjKm7yE/P8EG0D9GEm0PUt7Z54K009dY+/9WPLzI8163CaPKS2X7XISUfyOpvGu9BrsYVrZtSnOuV9a79ztT6Xsy2w4ePSyvq/C/nuTp/1hv/WHhodoapeAevzhOmVQYU35ouwwg3e2HBB6KxIWMUX+LwyTWeZ4TVSn0OWobmsDjo3WsnapSsxUDFMPxRo70N8ntvdrSc9jhjufzkVtMo6Z6/SLWbuoLKaPByMMGxbpRQ7YK14Ymua42y/LEookYJRg0ZiW0s0DK9gpeNrJ+qvEL8MrJeg+/2QmF5gtuv6Jcyo8QTD6SVtBVBdr95 sandholm@beast4
     sudo: ['ALL=(ALL) NOPASSWD:ALL']

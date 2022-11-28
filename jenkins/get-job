@@ -1,0 +1,13 @@
+#! /bin/bash
+# vi:set nu ai ap aw smd showmatch tabstop=4 shiftwidth=4:
+
+SERVER="http://jendock.tsand.org:8080"
+AUTH="sandholm:theresa1"
+
+java -jar ./jenkins-cli.jar -auth $AUTH -s ${SERVER} 
+UPDATE_LIST=$( java -jar /root/jenkins-cli.jar -auth $AUTH -s ${SERVER} list-plugins | grep -e ')$' | awk '{ print $1 }' ); 
+if [ ! -z "${UPDATE_LIST}" ]; then 
+    echo Updating Jenkins Plugins: ${UPDATE_LIST}; 
+    java -jar /root/jenkins-cli.jar -auth $AUTH -s ${SERVER} install-plugin ${UPDATE_LIST};
+    java -jar /root/jenkins-cli.jar -auth $AUTH -s ${SERVER} safe-restart;
+fi

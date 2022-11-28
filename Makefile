@@ -41,10 +41,10 @@ DOMAIN := .tsand.org
 ## the distro to build
 #DISTRO := xenial
 #DISTRO := focal
-#DISTRO := jammy
+DISTRO := jammy
 #DISTRO := bionicmin
 #DISTRO := focalmin
-DISTRO := jammymin
+#DISTRO := jammymin
 #DISTRO := bionic
 
 ## graphics
@@ -77,7 +77,7 @@ SWAPSIZE := 2
 
 ## datadisk size
 ## in GB
-DATASIZE := 16
+DATASIZE := 32
 
 ## DBLOGSIZE
 DBLOGSIZE := 0
@@ -87,7 +87,7 @@ DBSIZE := 0
 
 ## rootdisk size
 ## in GB
-ROOTSIZE := 8
+ROOTSIZE := 16
 
 ## docroot disk size
 ## in GB
@@ -97,7 +97,7 @@ WEBSIZE := 0
 RAM := 4096
 
 ## guest node cpu coount
-VCPUS := 2
+VCPUS := 4
 
 ## guest node os type
 OS-VARIANT := ubuntu20.04
