@@ -11,6 +11,7 @@ runcmd:
   - sed -i 's@^ExecStart=.*@ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock@g' /lib/systemd/system/docker.service
   - systemctl daemon-reload
   - service docker restart
+  - git clone tomsandholm/agent-tools
   - touch /etc/cloud/cloud-init.disabled
   - eject
   - shutdown -h now
