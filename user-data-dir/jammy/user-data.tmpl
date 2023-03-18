@@ -10,15 +10,6 @@ write_files:
       This is another line.
     owner: root:root
     permissions: '0644'
-  - path: /root/gitlab-setup
-    content: |
-      #! /bin/bash
-      export GITLAB_ROOT_EMAIL="root@local"
-      export GITLAB_ROOT_PASSWORD="theresa1"
-      export EXTERNAL_URL="http://gitlab.tsand.org"
-      apt-get install -y gitlab-ee
-    owner: root:root
-    permissions: '0644'
 
 
 #MOUNTS

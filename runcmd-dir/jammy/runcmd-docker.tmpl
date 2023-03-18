@@ -7,7 +7,6 @@ runcmd:
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
   - apt-get update -y
   - apt-get install -y docker-ce docker-ce-cli containerd.io
-  - docker pull jenkins/jenkins:lts-jdk11
   - sed -i 's@^ExecStart=.*@ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock@g' /lib/systemd/system/docker.service
   - systemctl daemon-reload
   - service docker restart

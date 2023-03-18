@@ -47,6 +47,8 @@ DISTRO := jammy
 #DISTRO := jammymin
 #DISTRO := bionic
 
+ARCH=x86_64
+
 ## graphics
 GRAPHICS := none
 
@@ -87,7 +89,7 @@ DBSIZE := 0
 
 ## rootdisk size
 ## in GB
-ROOTSIZE := 16
+ROOTSIZE := 75
 
 ## docroot disk size
 ## in GB
@@ -97,7 +99,7 @@ WEBSIZE := 0
 RAM := 4096
 
 ## guest node cpu coount
-VCPUS := 4
+VCPUS := 6
 
 ## guest node os type
 OS-VARIANT := ubuntu20.04
