@@ -1,3 +1,4 @@
+noble;24.04;https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img;noble-server-cloudimg-amd64.img
 jammy;22.04;https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img;jammy-server-cloudimg-amd64.img
 jammymin;20.04;https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img;ubuntu-22.04-minimal-cloudimg-amd64.img
 focal;20.04;https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img;focal-server-cloudimg-amd64.img
