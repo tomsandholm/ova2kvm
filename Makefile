@@ -41,7 +41,8 @@ DOMAIN := .tsand.org
 ## the distro to build
 #DISTRO := xenial
 #DISTRO := focal
-DISTRO := jammy
+#DISTRO := jammy
+DISTRO := noble
 #DISTRO := bionicmin
 #DISTRO := focalmin
 #DISTRO := jammymin
