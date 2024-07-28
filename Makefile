@@ -90,7 +90,7 @@ DBSIZE := 0
 
 ## rootdisk size
 ## in GB
-ROOTSIZE := 75
+ROOTSIZE := 35
 
 ## docroot disk size
 ## in GB
@@ -205,9 +205,9 @@ $(IMGDIR)/$(SNAME): $(IMGDIR)/$(SNAME)/rootfs.qcow2
 $(IMGDIR)/$(SNAME)/rootfs.qcow2:
 	mkdir -p $(IMGDIR)/$(SNAME)
 ifeq ($(ROOTSIZE),0)
-	qemu-img create -f qcow2 -b $(BASEDIR)/$(DISTRO)/rootfs.qcow2 $(IMGDIR)/$(SNAME)/rootfs.qcow2
+	qemu-img create -f qcow2 -F qcow2 -b $(BASEDIR)/$(DISTRO)/rootfs.qcow2 $(IMGDIR)/$(SNAME)/rootfs.qcow2
 else
-	qemu-img create -f qcow2 -b $(BASEDIR)/$(DISTRO)/rootfs.qcow2 $(IMGDIR)/$(SNAME)/rootfs.qcow2
+	qemu-img create -f qcow2 -F qcow2 -b $(BASEDIR)/$(DISTRO)/rootfs.qcow2 $(IMGDIR)/$(SNAME)/rootfs.qcow2
 	qemu-img resize $(IMGDIR)/$(SNAME)/rootfs.qcow2 $(ROOTSIZE)G
 endif
 	qemu-img info $(IMGDIR)/$(SNAME)/rootfs.qcow2
@@ -318,7 +318,7 @@ Delete:
 	virsh undefine $(SNAME) --remove-all-storage
 	rm -rf $(IMGDIR)/$(SNAME)
 	rm -rf $(DATADIR)/$(SNAME)
-	sudo sed -i "/^$(NAME).*/d" /etc/ansible/hosts
+	#sudo sed -i "/^$(NAME).*/d" /etc/ansible/hosts
 	make -e NAME=$(NAME) clean-image
 
 
@@ -328,7 +328,7 @@ node:	config.iso
 
 	virt-install --connect=qemu:///system --name $(SNAME) --ram $(RAM) --vcpus=$(VCPUS) --os-type=linux --os-variant=ubuntu16.04 --disk path=$(IMGDIR)/$(SNAME)/rootfs.qcow2,device=disk,bus=virtio $(SWAPDISK) $(DATADISK) $(DBDISK) $(DBLOGDISK) $(WEBDISK) --disk path=$(IMGDIR)/$(SNAME)/config.iso,device=cdrom --graphics $(GRAPHICS) --import --wait=-1 
 	#virt-install --connect=qemu:///system --name $(SNAME) --ram $(RAM) --vcpus=$(VCPUS) --os-type=linux --os-variant=ubuntu16.04 --disk path=$(IMGDIR)/$(SNAME)/rootfs.qcow2,device=disk,bus=virtio $(SWAPDISK) $(DATADISK) $(DBDISK) $(DBLOGDISK) $(WEBDISK) --disk path=$(IMGDIR)/$(SNAME)/config.iso,device=cdrom --graphics $(GRAPHICS) --import --wait=-1 --noautoconsole
-	sudo echo "$(NAME) ansible_python_interpreter=\"/usr/bin/python3\"" >> /etc/ansible/hosts
+	#sudo echo "$(NAME) ansible_python_interpreter=\"/usr/bin/python3\"" >> /etc/ansible/hosts
 	virsh start $(SNAME)
 
 .PHONY:	cluster
