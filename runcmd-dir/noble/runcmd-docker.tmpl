@@ -1,0 +1,15 @@
+runcmd:
+  - echo '{{ ds.meta_data.role }}' > /etc/role
+  - echo '{{ ds.meta_data.aenv }}' > /etc/aenv
+  - update-grub
+  - apt autoremove -y
+  - curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker-archive-keyring.gpg
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
+  - apt-get update -y
+  - apt-get install -y docker-ce docker-ce-cli containerd.io
+  - sed -i 's@^ExecStart=.*@ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock@g' /lib/systemd/system/docker.service
+  - systemctl daemon-reload
+  - service docker restart
+  - touch /etc/cloud/cloud-init.disabled
+  - eject
+  - shutdown -h now
