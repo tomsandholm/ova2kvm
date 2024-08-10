@@ -1,0 +1,9 @@
+# packages-general
+packages:
+  - python3
+  - lsof
+  - netcat
+  - haveged
+  - xinetd
+  - zip
+  - net-tools
