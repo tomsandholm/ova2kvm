@@ -1,5 +1,6 @@
 ## template: jinja
 #cloud-config
+autoinstall:
 disable_root: 0
 
 write_files:
