@@ -1,5 +1,6 @@
 ## template: jinja
 #cloud-config
+autoinstall:
 disable_root: 0
 ssh_pwauth: 1
 
@@ -13,10 +14,24 @@ write_files:
 
 
 #MOUNTS
+mounts:
+  - ["/dev/vdb", "none", "swap", "sw", "0", "0"]
 
 #PACKAGES
+# packages-general
+packages:
+  - python3
+  - lsof
+  - netcat
+  - haveged
+  - xinetd
+  - zip
+  - net-tools
 
 #BOOTCMD
+bootcmd:
+ - mkswap /dev/vdb
+ - swapon /dev/vdb
 
 #APT
 
@@ -43,5 +58,13 @@ users:
     shell: /bin/bash
 
 #RUNCMD
+runcmd:
+  - echo '{{ ds.meta_data.role }}' > /etc/role
+  - echo '{{ ds.meta_data.aenv }}' > /etc/aenv
+  - update-grub
+  - apt autoremove -y
+  - touch /etc/cloud/cloud-init.disabled
+  - eject
+  - shutdown -h now
 
 
