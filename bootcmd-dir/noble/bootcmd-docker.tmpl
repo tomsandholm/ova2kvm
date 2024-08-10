@@ -1,0 +1,10 @@
+bootcmd:
+ - mkswap /dev/vdb
+ - swapon /dev/vdb
+ - pvcreate /dev/vdc
+ - vgcreate vgdocker /dev/vdc
+ - lvcreate --name lvdocker -l 100%FREE vgdocker
+ - mke2fs -j /dev/vgdocker/lvdocker
+ - apt-get update
+ - cd /root && git clone https://github.com/tomsandholm/agent-tools.git
+
